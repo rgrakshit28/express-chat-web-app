@@ -18,7 +18,9 @@ export const signup = async (req, res) => {
 
     const token = generateToken(user._id);
 
-    return res.status(201).json({ message: "User created", user, token });
+    res.cookie("jwt", token, { httpOnly: true });
+
+    return res.status(201).json({ message: "User created", user });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Server error" });
@@ -43,7 +45,9 @@ export const login = async (req, res) => {
 
     const token = generateToken(user._id);
 
-    return res.status(201).json({ message: "User logged in", user, token });
+    res.cookie("jwt", token, { httpOnly: true });
+
+    return res.status(201).json({ message: "User logged in", user });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
