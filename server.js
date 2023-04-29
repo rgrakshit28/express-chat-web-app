@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDb from "./src/config/database.js";
 import userRoutes from "./src/routes/user.js";
+import chatRoutes from "./src/routes/chat.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(cookieParser());
 
 // Users Routes
 app.use("/api/user", userRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on PORT: ${port}`);
