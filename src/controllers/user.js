@@ -58,3 +58,27 @@ export const logout = (req, res) => {
   res.clearCookie("jwt");
   res.status(200).json({ message: "Logged out successfully" });
 };
+
+export const getUsers = async (req, res) => {
+  try {
+    const { search } = req.query;
+    let users;
+
+    if (search) {
+      users = await User.find({
+        _id: { $ne: req.user._id },
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          { email: { $regex: search, $options: "i" } },
+        ],
+      });
+    } else {
+      users = await User.find();
+    }
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
